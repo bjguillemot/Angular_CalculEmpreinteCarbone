@@ -9,6 +9,11 @@ import { CarbonFootprintResult } from "../carbon-footprint-result/carbon-footpri
   styleUrl: './carbon-footprint.scss',
 })
 export class CarbonFootprint {
+  
+  protected distanceKm: number = 1000;
+  protected consumptionPer100Km: number = 50;
+  
+  
   ngOnInit(): void {
     console.log('méthode ngOnInit : Initialisation attributs');
   }
@@ -17,6 +22,10 @@ export class CarbonFootprint {
   }
   ngOnDestroy(): void {
     console.log('méthode ngOnDestroy : Composant détruit');
+  }
+
+  add100Km() {
+    this.distanceKm += 100;
   }
 
 }

@@ -1,2 +1,16 @@
+<p [class]="{ 'high': consumptionPer100Km > 7, 'low': consumptionPer100Km < 4 }">Consommation pour 100 kms :
+    {{consumptionPer100Km}}</p>
+<p [class]="{ 'highDistance': distanceKm > 500, 'lowDistance': distanceKm < 100 }">Nombre de kilomètres : {{distanceKm}}
+</p>
+<p>Consommation totale : {{distanceKm * consumptionPer100Km}}</p>
+
+@if(consumptionPer100Km > 7){
+<p>Attention, votre consommation est élevée.</p>
+} @else if (consumptionPer100Km < 4) { 
+    <p>Félicitations, votre consommation est faible.</p>
+}
+
+<button (click)="add100Km()">Ajouter 100km</button>
+
 <app-carbon-footprint-form></app-carbon-footprint-form>
 <app-carbon-footprint-result></app-carbon-footprint-result>
