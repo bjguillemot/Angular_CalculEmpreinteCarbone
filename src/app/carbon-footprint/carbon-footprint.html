@@ -1,6 +1,7 @@
-<p [class]="{ 'high': consumptionPer100Km > 7, 'low': consumptionPer100Km < 4 }">Consommation pour 100 kms :
-    {{consumptionPer100Km}}</p>
-<p [class]="{ 'highDistance': distanceKm > 500, 'lowDistance': distanceKm < 100 }">Nombre de kilomètres : {{distanceKm}}
+<p [class]="{ 'high': consumptionPer100Km > 7, 'low': consumptionPer100Km < 4 }">
+    Consommation pour 100 kms : {{consumptionPer100Km | number:'1.2-2'}}</p>
+<p [class]="{ 'highDistance': distanceKm > 500, 'lowDistance': distanceKm < 100 }">
+    Nombre de kilomètres : {{distanceKm}}
 </p>
 <p>Consommation totale : {{distanceKm * consumptionPer100Km}}</p>
 
@@ -11,6 +12,28 @@
 }
 
 <button (click)="add100Km()">Ajouter 100km</button>
+
+
+<h2>Liste des voyages</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Distance</th>
+            <th>Consommation pour 100 kms</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (travel of travels; track $index) {
+        <tr>
+            <td>{{ travel.distanceKm }} km</td>
+            <td>{{ travel.consumptionPer100Km }} L</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<button (click)="generateTravel()">Générer un voyage</button>
+
 
 <app-carbon-footprint-form></app-carbon-footprint-form>
 <app-carbon-footprint-result></app-carbon-footprint-result>
