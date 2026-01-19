@@ -1,19 +1,22 @@
 <section>
     <article>
         <p [class]="{ 'high': consumptionPer100Km > MAX_CONSUMPTION, 'low': consumptionPer100Km < MIN_CONSUMPTION }">
-            Consommation pour 100 kms : {{consumptionPer100Km | number:'1.2-2'}}</p>
-            <p [class]="{ 'highDistance': distanceKm > 500, 'lowDistance': distanceKm < 100 }">
-                Nombre de kilomètres : {{distanceKm}}
-            </p>
-            <p>Consommation totale : {{distanceKm * consumptionPer100Km}}</p>
+            Consommation pour 100 kms : {{consumptionPer100Km | number:'1.2-2'}}
+        </p>
+        <p [class]="{ 'highDistance': distanceKm > DISTANCE_MAX, 'lowDistance': distanceKm < DISTANCE_MIN }">
+            Nombre de kilomètres : {{distanceKm}}
+        </p>
+        <p>
+            Consommation totale : {{distanceKm * consumptionPer100Km}}
+        </p>
             
-            @if(consumptionPer100Km > MAX_CONSUMPTION){
-                <p>Attention, votre consommation est élevée.</p>
-            } @else if (consumptionPer100Km < MIN_CONSUMPTION) { 
-                <p>Félicitations, votre consommation est faible.</p>
-            }
+        @if(consumptionPer100Km > MAX_CONSUMPTION){
+            <p>Attention, votre consommation est élevée.</p>
+        } @else if (consumptionPer100Km < MIN_CONSUMPTION) { 
+            <p>Félicitations, votre consommation est faible.</p>
+        }
             
-            <button (click)="add100Km()">Ajouter 100km</button>
+        <button (click)="add100Km()">Ajouter 100km</button>
     </article>
     <article>
             <h2>Liste des voyages</h2>

@@ -11,8 +11,10 @@ import { DecimalPipe } from '@angular/common';
 })
 export class CarbonFootprint {
   
-  public readonly MAX_CONSUMPTION = 7;
-  public readonly MIN_CONSUMPTION = 4;
+  public readonly MAX_CONSUMPTION: number = 7;
+  public readonly MIN_CONSUMPTION: number = 4;
+  public readonly DISTANCE_MAX: number = 500;
+  public readonly DISTANCE_MIN: number = 100;
 
   protected distanceKm: number;
   protected consumptionPer100Km: number;
