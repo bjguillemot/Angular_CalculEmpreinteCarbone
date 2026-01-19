@@ -1,11 +1,16 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
 export class Footer {
+  protected readonly createdDate: Date;
 
+  constructor() {
+    this.createdDate = new Date(2026, 0, 19);
+  }
 }
