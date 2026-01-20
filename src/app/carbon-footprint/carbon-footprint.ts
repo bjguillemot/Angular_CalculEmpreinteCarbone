@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CarbonFootprintForm } from "../carbon-footprint-form/carbon-footprint-form";
 import { CarbonFootprintResult } from "../carbon-footprint-result/carbon-footprint-result";
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, registerLocaleData } from '@angular/common';
+import localeFr from "@angular/common/locales/fr";
+registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-carbon-footprint',
