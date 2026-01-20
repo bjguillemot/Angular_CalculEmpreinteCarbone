@@ -9,15 +9,15 @@ export class CarbonFootprintCompute {
 
   constructor(){
     this.travels = [
-      { distanceKm: 50, consumptionPer100Km: 5, quantiteCO2: -1 },
-      { distanceKm: 150, consumptionPer100Km: 6, quantiteCO2: -1 },
-      { distanceKm: 250, consumptionPer100Km: 7, quantiteCO2: -1 },
-      { distanceKm: 350, consumptionPer100Km: 8, quantiteCO2: -1 },
-      { distanceKm: 450, consumptionPer100Km: 9, quantiteCO2: -1 }
+      { distanceKm: 50, consumptionPer100Km: 5, quantityCO2: -1 },
+      { distanceKm: 150, consumptionPer100Km: 6, quantityCO2: -1 },
+      { distanceKm: 250, consumptionPer100Km: 7, quantityCO2: -1 },
+      { distanceKm: 350, consumptionPer100Km: 8, quantityCO2: -1 },
+      { distanceKm: 450, consumptionPer100Km: 9, quantityCO2: -1 }
     ];
 
     this.travels.forEach((travel) => {
-      travel.quantiteCO2 = (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3;
+      travel.quantityCO2 = (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3;
     })
   }
 
@@ -27,15 +27,15 @@ export class CarbonFootprintCompute {
   }
 
   addTravel(travel: { distanceKm: number, consumptionPer100Km: number }) {
-    const _travel: Travel = { ...travel, quantiteCO2: (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3 }
+    const _travel: Travel = { ...travel, quantityCO2: (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3 }
     this.travels.push(_travel);
   }
 
-  getResumeTravels(): { totaleDistance: number, averageConsumption: number, quantiteCO2Totale: number } {
+  getResumeTravels(): { totaleDistance: number, averageConsumption: number, quantityCO2Totale: number } {
     return { 
       totaleDistance: this.calculateDistanceKm(), 
       averageConsumption: this.calculateConsumptionPer100Km(),
-      quantiteCO2Totale: this.calculateQuantiteCO2Totale()
+      quantityCO2Totale: this.calculatequantityCO2Totale()
     }
   }
 
@@ -51,9 +51,9 @@ export class CarbonFootprintCompute {
     }, 0);
   }
 
-  private calculateQuantiteCO2Totale(): number {
+  private calculatequantityCO2Totale(): number {
     return this.travels.reduce((acc, val) => {
-      return acc + val.quantiteCO2;
+      return acc + val.quantityCO2;
     }, 0);
   }
 }

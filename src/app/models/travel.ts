@@ -1,5 +1,5 @@
 export interface Travel {
     distanceKm: number, 
     consumptionPer100Km: number,
-    quantiteCO2: number
+    quantityCO2: number
 }

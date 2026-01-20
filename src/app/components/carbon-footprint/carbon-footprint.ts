@@ -22,14 +22,14 @@ export class CarbonFootprint {
 
   protected distanceKm: number;
   protected consumptionPer100Km: number;
-  protected quantiteCO2Totale: number;
+  protected quantityCO2Totale: number;
   protected readonly travels: Array<Travel>;
 
   constructor(private readonly cfc: CarbonFootprintCompute){
     this.travels = cfc.getTravels()
     this.distanceKm = 0;
     this.consumptionPer100Km = 0;
-    this.quantiteCO2Totale = 0;
+    this.quantityCO2Totale = 0;
     this.updateResume();
   }  
   
@@ -51,7 +51,7 @@ export class CarbonFootprint {
     const resume = this.cfc.getResumeTravels()
     this.distanceKm = resume.totaleDistance;
     this.consumptionPer100Km = resume.averageConsumption;
-    this.quantiteCO2Totale = resume.quantiteCO2Totale;
+    this.quantityCO2Totale = resume.quantityCO2Totale;
   }
 
   generateTravel() {
