@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { User } from '../../services/user';
 
 @Component({
   selector: 'app-home',
@@ -8,5 +9,10 @@ import { RouterLink } from "@angular/router";
   styleUrl: './home.scss',
 })
 export class Home {
+  constructor(private readonly authService: User, private readonly router: Router){}
 
+  goToSummary(){
+    this.router.navigateByUrl('/summary')
+    this.authService.login("Jean");
+  }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import { User } from '../../services/user';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,8 @@ export class Header {
   protected username: string;
   protected profileLink: string;
 
-  constructor() {
-    this.username = "Blandine";
+  constructor(private readonly authService: User) {
+    this.username = authService.getUsername();
     this.profileLink = "/profile/" + this.username
   }
 }
