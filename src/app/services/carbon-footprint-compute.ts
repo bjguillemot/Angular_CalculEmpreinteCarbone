@@ -5,7 +5,7 @@ import { Travel } from '../models/travel';
   providedIn: 'root',
 })
 export class CarbonFootprintCompute {
-  protected travels: Array<Travel>;
+  private travels: Array<Travel>;
 
   constructor(){
     this.travels = [
@@ -31,7 +31,7 @@ export class CarbonFootprintCompute {
     this.travels.push(_travel);
   }
 
-  getResumeVoyages(): { totaleDistance: number, averageConsumption: number, quantiteCO2Totale: number } {
+  getResumeTravels(): { totaleDistance: number, averageConsumption: number, quantiteCO2Totale: number } {
     return { 
       totaleDistance: this.calculateDistanceKm(), 
       averageConsumption: this.calculateConsumptionPer100Km(),
