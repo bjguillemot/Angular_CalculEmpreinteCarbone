@@ -7,6 +7,11 @@ import { authGuard } from './guards/auth-guard';
 export const routes: Routes = [
     { path: '', component: Home },
     { path: 'summary', component: CarbonFootprint, canActivate: [authGuard] },
-    { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
+    { path: 'profile', canActivate: [authGuard], children: 
+        [
+            { path: ':username', component: Profile },
+            { path: '', redirectTo: '/', pathMatch: 'full' },
+        ] 
+    },
     { path: '**', component: Home },
 ];
