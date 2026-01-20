@@ -1,2 +1,5 @@
 <h1>Bienvenue !</h1>
-<button (click)="goToSummary()">Aller au résumé</button>
+<button (click)="goToSummary()">Aller au résumé et se connecter</button>
+@if(showLogoutBtn) {
+    <button (click)="logout()">Se déconnecter</button>
+}
