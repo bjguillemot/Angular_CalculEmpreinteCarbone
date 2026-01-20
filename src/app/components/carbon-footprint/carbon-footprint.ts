@@ -3,6 +3,8 @@ import { CarbonFootprintForm } from "../carbon-footprint-form/carbon-footprint-f
 import { CarbonFootprintResult } from "../carbon-footprint-result/carbon-footprint-result";
 import { DecimalPipe, registerLocaleData } from '@angular/common';
 import localeFr from "@angular/common/locales/fr";
+import { CarbonFootprintCompute } from '../../services/carbon-footprint-compute';
+import { Travel } from '../../models/travel';
 registerLocaleData(localeFr);
 
 @Component({
@@ -20,33 +22,16 @@ export class CarbonFootprint {
 
   protected distanceKm: number;
   protected consumptionPer100Km: number;
-  protected travels: Array<{ distanceKm: number, consumptionPer100Km: number }>;
+  protected quantiteCO2Totale: number;
+  protected travels: Array<Travel>;
 
-  constructor(){
-    this.travels = [
-      { distanceKm: 50, consumptionPer100Km: 5 },
-      { distanceKm: 150, consumptionPer100Km: 6 },
-      { distanceKm: 250, consumptionPer100Km: 7 },
-      { distanceKm: 350, consumptionPer100Km: 8 },
-      { distanceKm: 450, consumptionPer100Km: 9 }
-    ];
-
-    this.distanceKm = this.calculateDistanceKm();
-    this.consumptionPer100Km = this.calculateConsumptionPer100Km();
-  }
-
-  private calculateConsumptionPer100Km(): number {
-    return this.travels.reduce((acc, val) => {
-      return acc + val.consumptionPer100Km;
-    }, 0) / this.travels.length;
-  }
-
-  private calculateDistanceKm(): number {
-    return this.travels.reduce((acc, val) => {
-      return acc + val.distanceKm;
-    }, 0);
-  }
-  
+  constructor(private readonly carbonFootprintCompute: CarbonFootprintCompute){
+    this.travels = carbonFootprintCompute.getTravels()
+    this.distanceKm = 0;
+    this.consumptionPer100Km = 0;
+    this.quantiteCO2Totale = 0;
+    this.updateResume();
+  }  
   
   ngOnInit(): void {
     console.log('méthode ngOnInit : Initialisation attributs');
@@ -62,12 +47,18 @@ export class CarbonFootprint {
     this.distanceKm += 100;
   }
 
+  private updateResume(){
+    const resume = this.carbonFootprintCompute.getResumeVoyages()
+    this.distanceKm = resume.totaleDistance;
+    this.consumptionPer100Km = resume.averageConsumption;
+    this.quantiteCO2Totale = resume.quantiteCO2Totale;
+  }
+
   generateTravel() {
     const distanceKm = this.randomIntFromInterval(50, 450);
     const consumptionPer100Km = this.randomIntFromInterval(5, 9);
-    this.travels.push({ distanceKm, consumptionPer100Km })
-    this.distanceKm = this.calculateDistanceKm();
-    this.consumptionPer100Km = this.calculateConsumptionPer100Km();
+    this.carbonFootprintCompute.addTravel({ distanceKm, consumptionPer100Km })
+    this.updateResume();
   }
 
   private randomIntFromInterval(min: number, max: number) { // min and max included 

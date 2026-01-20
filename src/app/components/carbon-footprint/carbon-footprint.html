@@ -1,13 +1,16 @@
 <section>
     <article>
         <p [class]="{ 'high': consumptionPer100Km > MAX_CONSUMPTION, 'low': consumptionPer100Km < MIN_CONSUMPTION }">
-            Consommation pour 100 kms : {{consumptionPer100Km | number:'1.2-2'}}
+            Consommation pour 100 kms : {{consumptionPer100Km | number:'1.2-2': 'fr_FR'}}
         </p>
         <p [class]="{ 'highDistance': distanceKm > DISTANCE_MAX, 'lowDistance': distanceKm < DISTANCE_MIN }">
             Nombre de kilomètres : {{distanceKm}}
         </p>
         <p>
             Consommation totale : {{distanceKm * consumptionPer100Km | number:'1.2-2': 'fr_FR'}}
+        </p>
+        <p>
+            Quantité totale de CO2 : {{ quantiteCO2Totale | number:'1.2-2': 'fr_FR'}}
         </p>
             
         @if(consumptionPer100Km > MAX_CONSUMPTION){
@@ -25,13 +28,15 @@
                     <tr>
                         <th>Distance</th>
                         <th>Consommation pour 100 kms</th>
+                        <th>Quantité de CO2</th>
                     </tr>
                 </thead>
             <tbody>
                 @for (travel of travels; track $index) {
                 <tr>
-                    <td>{{ travel.distanceKm }} km</td>
-                    <td>{{ travel.consumptionPer100Km }} L</td>
+                    <td>{{ travel.distanceKm | number:'1.2-2': 'fr_FR' }} km</td>
+                    <td>{{ travel.consumptionPer100Km | number:'1.2-2': 'fr_FR'}} L</td>
+                    <td>{{ travel.quantiteCO2 | number:'1.2-2': 'fr_FR'}} L</td>
                 </tr>
             }
         </tbody>
