@@ -17,17 +17,20 @@ export class CarbonFootprintCompute {
     ];
 
     this.travels.forEach((travel) => {
-      travel.quantityCO2 = (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3;
+      travel.quantityCO2 = this.getQuantityCO2ByTravel(travel);
     })
   }
 
+  private getQuantityCO2ByTravel(travel: { distanceKm: number, consumptionPer100Km: number }): number {
+    return (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3;
+  }
 
   getTravels(): Array<Travel> {
     return this.travels;
   }
 
   addTravel(travel: { distanceKm: number, consumptionPer100Km: number }) {
-    const _travel: Travel = { ...travel, quantityCO2: (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3 }
+    const _travel: Travel = { ...travel, quantityCO2: this.getQuantityCO2ByTravel(travel) }
     this.travels.push(_travel);
   }
 
