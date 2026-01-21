@@ -1,6 +1,8 @@
 <h1>Calcul de l'empreinte carbone</h1>
 <nav>
-    <button routerLink="/">Accueil</button>
-    <button routerLink="/summary">Résumé</button>
-    <button [routerLink]="profileLink">Profil</button>
+    <ul>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Accueil</a></li>
+        <li><a routerLink="/summary" routerLinkActive="active">Résumé</a></li>
+        <li><a [routerLink]="profileLink" routerLinkActive="active">Profil</a></li>
+    </ul>
 </nav>

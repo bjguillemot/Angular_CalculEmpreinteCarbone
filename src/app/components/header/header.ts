@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { User } from '../../services/user';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
