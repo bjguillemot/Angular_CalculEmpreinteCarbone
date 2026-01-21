@@ -1,1 +1,28 @@
-<p>carbon-footprint-form works!</p>
+<form [formGroup]="travelForm" (submit)="onClickSubmit()">
+    <label for="distance">Distance</label>
+    <input type="number" min="0" name="distance" id="distance" formControlName="distance">
+    @if (travelForm.get('distance')?.dirty || travelForm.get('distance')?.touched){
+        @if(travelForm.get('distance')?.hasError('required')) {
+            <div class="mandatory">Ce champ est obligatoire !</div>
+        }
+        @if(travelForm.get('distance')?.hasError('min')) {
+            <div class="mandatory">Ce champ doit être supérieure à 0 !</div>
+        }
+    }
+
+    <label for="consumption">Consommation</label>
+    <input type="number" min="0" name="consumption" id="consumption" formControlName="consumption">
+    @if (travelForm.get('consumption')?.dirty || travelForm.get('consumption')?.touched){
+        @if(travelForm.get('consumption')?.hasError('required')) {
+            <div class="mandatory">Ce champ est obligatoire !</div>
+        }
+        @if(travelForm.get('consumption')?.hasError('min')) {
+            <div class="mandatory">Ce champ doit être supérieure à 0 !</div>
+        }
+    }
+
+    <label for="date">Date du voyage</label>
+    <input type="date" name="date" id="date" formControlName="date">
+
+    <button [disabled]="!travelForm.valid">Ajouter le voyage</button>
+</form>
