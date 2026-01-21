@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { CarbonFootprintForm } from "../carbon-footprint-form/carbon-footprint-form";
 import { CarbonFootprintResult } from "../carbon-footprint-result/carbon-footprint-result";
-import { DecimalPipe, registerLocaleData } from '@angular/common';
+import { DecimalPipe, registerLocaleData, UpperCasePipe } from '@angular/common';
 import localeFr from "@angular/common/locales/fr";
 import { CarbonFootprintCompute } from '../../services/carbon-footprint-compute';
 import { Travel } from '../../models/travel';
+import { TypeTravelPipe } from '../../pipes/type-travel-pipe';
 registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-carbon-footprint',
-  imports: [CarbonFootprintForm, CarbonFootprintResult, DecimalPipe],
+  imports: [CarbonFootprintForm, CarbonFootprintResult, DecimalPipe, UpperCasePipe, TypeTravelPipe],
   templateUrl: './carbon-footprint.html',
   styleUrl: './carbon-footprint.scss',
 })

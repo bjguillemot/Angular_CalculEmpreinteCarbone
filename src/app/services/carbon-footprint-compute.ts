@@ -9,7 +9,7 @@ export class CarbonFootprintCompute {
 
   constructor(){
     this.travels = [
-      { distanceKm: 50, consumptionPer100Km: 5,  type: "plane",quantityCO2: -1 },
+      { distanceKm: 50,  consumptionPer100Km: 5, type: "plane", quantityCO2: -1 },
       { distanceKm: 150, consumptionPer100Km: 6, type: "plane", quantityCO2: -1 },
       { distanceKm: 250, consumptionPer100Km: 7, type: "plane", quantityCO2: -1 },
       { distanceKm: 350, consumptionPer100Km: 8, type: "plane", quantityCO2: -1 },

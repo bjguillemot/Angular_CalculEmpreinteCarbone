@@ -29,16 +29,18 @@
                         <th>Distance</th>
                         <th>Consommation pour 100 kms</th>
                         <th>Quantité de CO2</th>
+                        <th>Type</th>
                     </tr>
                 </thead>
             <tbody>
                 @for (travel of travels; track $index) {
-                <tr>
-                    <td>{{ travel.distanceKm | number:'1.2-2': 'fr_FR' }} km</td>
-                    <td>{{ travel.consumptionPer100Km | number:'1.2-2': 'fr_FR'}} L</td>
-                    <td>{{ travel.quantityCO2 | number:'1.2-2': 'fr_FR'}} kg de CO2</td>
-                </tr>
-            }
+                    <tr>
+                        <td>{{ travel.distanceKm | number:'1.2-2': 'fr_FR' }} km</td>
+                        <td>{{ travel.type === 'car' ? (travel.consumptionPer100Km | number:'1.2-2': 'fr_FR') : '//'}} L</td>
+                        <td>{{ travel.quantityCO2 | number:'1.2-2': 'fr_FR'}} kg de CO2</td>
+                        <td>{{ travel.type | typeTravelToFrench | uppercase }}</td>
+                    </tr>
+                }
         </tbody>
         </table>
 
