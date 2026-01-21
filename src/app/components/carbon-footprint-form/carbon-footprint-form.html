@@ -3,10 +3,10 @@
     <input type="number" min="0" name="distance" id="distance" formControlName="distance">
     @if (travelForm.get('distance')?.dirty || travelForm.get('distance')?.touched){
         @if(travelForm.get('distance')?.hasError('required')) {
-            <div class="mandatory">Ce champ est obligatoire !</div>
+            <div class="alert alert-danger">Ce champ est obligatoire !</div>
         }
         @if(travelForm.get('distance')?.hasError('min')) {
-            <div class="mandatory">Ce champ doit être supérieure à 0 !</div>
+            <div class="alert alert-danger">Ce champ doit être supérieure à 0 !</div>
         }
     }
 
@@ -25,10 +25,10 @@
         <input type="number" min="0" name="carConsumption" id="carConsumption" formControlName="carConsumption">
         @if (travelForm.get('carConsumption')?.dirty || travelForm.get('carConsumption')?.touched){
             @if(travelForm.get('carConsumption')?.hasError('min')) {
-                <div class="mandatory">Ce champ doit être supérieure à 0 !</div>
+                <div class="alert alert-danger">Ce champ doit être supérieure à 0 !</div>
             }
             @if (travelForm.hasError('requiredCarConsumption') && (travelForm.touched || travelForm.dirty)) {
-                <div class="mandatory">
+                <div class="alert alert-danger">
                     Ce champ est obligatoire !
                 </div>
             }
