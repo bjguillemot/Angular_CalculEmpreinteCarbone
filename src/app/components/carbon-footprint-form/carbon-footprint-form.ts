@@ -38,8 +38,11 @@ export class CarbonFootprintForm {
   onClickSubmit() {
     if(this.travelForm.valid){
       const distanceKm = this.travelForm.get('distance')?.value;
-      const consumptionPer100Km = this.travelForm.get('carConsumption')?.value ?? 0;
       const type = this.travelForm.get('type')?.value;
+      let consumptionPer100Km = 0;
+      if(type === 'car'){
+        consumptionPer100Km = this.travelForm.get('carConsumption')?.value ?? 0;
+      }
       const date = this.travelForm.get('date');
       this.cfc.addTravel({ distanceKm, consumptionPer100Km, type })
     }
