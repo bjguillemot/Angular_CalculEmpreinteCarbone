@@ -34,8 +34,8 @@ export class Home {
   }
 
   onClickLogin() {
-    const isUsernameValid: boolean = this.username.length > 3;
-    const isPasswordValid: boolean = this.password.length > 6;
+    const isUsernameValid: boolean = this.username.trim().length > 3;
+    const isPasswordValid: boolean = this.password.trim().length > 6;
     if (isPasswordValid && isUsernameValid) {
       this.hasErrorLogin = false;
       if (!this.authService.isLogged()) {
