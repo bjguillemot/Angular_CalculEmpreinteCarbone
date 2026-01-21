@@ -28,7 +28,7 @@ export class CarbonFootprintForm {
   ): ValidationErrors | null => {
     const type = control.get('type');
     const consumption = control.get('carConsumption');
-    return type && consumption && type.value === "car" ? { requiredCarConsumption: true } : null;
+    return type && consumption && type.value === "car" && !consumption.value ? { requiredCarConsumption: true } : null;
   };
 
   onClickSubmit() {
