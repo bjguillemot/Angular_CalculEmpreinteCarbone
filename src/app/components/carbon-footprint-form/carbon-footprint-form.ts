@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CarbonFootprintCompute } from '../../services/carbon-footprint-compute';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
@@ -12,7 +12,7 @@ export class CarbonFootprintForm {
 
   protected travelForm: FormGroup;
 
-  constructor(private readonly cfc: CarbonFootprintCompute){
+  constructor(private readonly cfc: CarbonFootprintCompute, private cdref: ChangeDetectorRef){
     this.travelForm = new FormGroup({
         distance: new FormControl(null, [Validators.required, Validators.min(0)]),
         date: new FormControl(null, [Validators.required]),
@@ -24,6 +24,7 @@ export class CarbonFootprintForm {
     this.travelForm.get('type')?.valueChanges.subscribe(() => {
       this.travelForm.controls['carConsumption'].clearValidators();
       this.travelForm.controls['carConsumption'].updateValueAndValidity();
+      this.cdref.detectChanges();
     });
   }
 
