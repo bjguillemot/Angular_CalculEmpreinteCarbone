@@ -10,19 +10,30 @@
         }
     }
 
-    <label for="consumption">Consommation</label>
-    <input type="number" min="0" name="consumption" id="consumption" formControlName="consumption">
-    @if (travelForm.get('consumption')?.dirty || travelForm.get('consumption')?.touched){
-        @if(travelForm.get('consumption')?.hasError('required')) {
-            <div class="mandatory">Ce champ est obligatoire !</div>
-        }
-        @if(travelForm.get('consumption')?.hasError('min')) {
-            <div class="mandatory">Ce champ doit être supérieure à 0 !</div>
-        }
-    }
-
     <label for="date">Date du voyage</label>
     <input type="date" name="date" id="date" formControlName="date">
+
+    <label for="type">Moyen de transport</label>
+    <select name="type" id="type" formControlName="type">
+        <option value="plane">Avion</option>
+        <option value="train">Train</option>
+        <option value="car">Voiture</option>
+    </select>
+
+    @if(travelForm.get('type')?.value && travelForm.get('type')?.value === "car"){
+        <label for="carConsumption">Consommation pour 100km</label>
+        <input type="number" min="0" name="carConsumption" id="carConsumption" formControlName="carConsumption">
+        @if (travelForm.get('carConsumption')?.dirty || travelForm.get('carConsumption')?.touched){
+            @if(travelForm.get('carConsumption')?.hasError('min')) {
+                <div class="mandatory">Ce champ doit être supérieure à 0 !</div>
+            }
+            @if (travelForm.hasError('requiredCarConsumption') && (travelForm.touched || travelForm.dirty)) {
+                <div class="mandatory">
+                    Ce champ est obligatoire !
+                </div>
+            }
+        }
+    }
 
     <button [disabled]="!travelForm.valid">Ajouter le voyage</button>
 </form>

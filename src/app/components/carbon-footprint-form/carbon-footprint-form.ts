@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CarbonFootprintCompute } from '../../services/carbon-footprint-compute';
-import { Travel } from '../../models/travel';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-carbon-footprint-form',
@@ -16,17 +15,29 @@ export class CarbonFootprintForm {
   constructor(private readonly cfc: CarbonFootprintCompute){
     this.travelForm = new FormGroup({
       distance: new FormControl(null, [Validators.required, Validators.min(0)]),
-      consumption: new FormControl(null, [Validators.required, Validators.min(0)]),
-      date: new FormControl(null, [Validators.required])
-    })
+      date: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      carConsumption: new FormControl(null, [Validators.min(0)])
+    }, { validators: this.requiredConsumptionValidator }
+  );
   }
+
+  /** An actor's name can't match the actor's role */
+  requiredConsumptionValidator: ValidatorFn = (
+    control: AbstractControl,
+  ): ValidationErrors | null => {
+    const type = control.get('type');
+    const consumption = control.get('carConsumption');
+    return type && consumption && type.value === "car" ? { requiredCarConsumption: true } : null;
+  };
 
   onClickSubmit() {
     if(this.travelForm.valid){
       const distanceKm = this.travelForm.get('distance')?.value;
-      const consumptionPer100Km = this.travelForm.get('consumption')?.value;
+      const consumptionPer100Km = this.travelForm.get('carConsumption')?.value ?? 0;
+      const type = this.travelForm.get('type')?.value;
       const date = this.travelForm.get('date');
-      this.cfc.addTravel({ distanceKm, consumptionPer100Km })
+      this.cfc.addTravel({ distanceKm, consumptionPer100Km, type })
     }
   }
 

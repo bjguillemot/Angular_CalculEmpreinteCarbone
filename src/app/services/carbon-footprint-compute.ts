@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Travel } from '../models/travel';
+import { Travel, TravelType } from '../models/travel';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +9,11 @@ export class CarbonFootprintCompute {
 
   constructor(){
     this.travels = [
-      { distanceKm: 50, consumptionPer100Km: 5, quantityCO2: -1 },
-      { distanceKm: 150, consumptionPer100Km: 6, quantityCO2: -1 },
-      { distanceKm: 250, consumptionPer100Km: 7, quantityCO2: -1 },
-      { distanceKm: 350, consumptionPer100Km: 8, quantityCO2: -1 },
-      { distanceKm: 450, consumptionPer100Km: 9, quantityCO2: -1 }
+      { distanceKm: 50, consumptionPer100Km: 5,  type: "plane",quantityCO2: -1 },
+      { distanceKm: 150, consumptionPer100Km: 6, type: "plane", quantityCO2: -1 },
+      { distanceKm: 250, consumptionPer100Km: 7, type: "plane", quantityCO2: -1 },
+      { distanceKm: 350, consumptionPer100Km: 8, type: "plane", quantityCO2: -1 },
+      { distanceKm: 450, consumptionPer100Km: 9, type: "plane", quantityCO2: -1 }
     ];
 
     this.travels.forEach((travel) => {
@@ -21,15 +21,28 @@ export class CarbonFootprintCompute {
     })
   }
 
-  private getQuantityCO2ByTravel(travel: { distanceKm: number, consumptionPer100Km: number }): number {
-    return (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3;
+  private getQuantityCO2ByTravel(travel: { distanceKm: number, consumptionPer100Km: number, type: TravelType }): number {
+    switch (travel.type) {
+      case "plane":
+        return travel.distanceKm * 0.2
+        break;
+      case "train":
+        return travel.distanceKm * 0.03;
+        break;
+      case "car":
+        return (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3
+        break;
+      default:
+        return (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3;
+        break;
+    }
   }
 
   getTravels(): Array<Travel> {
     return this.travels;
   }
 
-  addTravel(travel: { distanceKm: number, consumptionPer100Km: number }) {
+  addTravel(travel: { distanceKm: number, consumptionPer100Km: number, type: TravelType }) {
     const _travel: Travel = { ...travel, quantityCO2: this.getQuantityCO2ByTravel(travel) }
     this.travels.push(_travel);
   }

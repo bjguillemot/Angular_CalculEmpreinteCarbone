@@ -57,7 +57,7 @@ export class CarbonFootprint {
   generateTravel() {
     const distanceKm = this.randomIntFromInterval(50, 450);
     const consumptionPer100Km = this.randomIntFromInterval(5, 9);
-    this.cfc.addTravel({ distanceKm, consumptionPer100Km })
+    this.cfc.addTravel({ distanceKm, consumptionPer100Km, type: "plane" })
     this.updateResume();
   }
 
