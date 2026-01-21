@@ -16,7 +16,7 @@ export class CarbonFootprintForm {
     this.travelForm = new FormGroup({
       distance: new FormControl(null, [Validators.required, Validators.min(0)]),
       date: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required, Validators.pattern(/(car|plane|train)/)]),
       carConsumption: new FormControl(null, [Validators.min(0)])
     }, { validators: this.requiredConsumptionValidator }
   );

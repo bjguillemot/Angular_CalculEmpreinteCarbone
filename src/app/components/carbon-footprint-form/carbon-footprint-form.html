@@ -19,6 +19,14 @@
         <option value="train">Train</option>
         <option value="car">Voiture</option>
     </select>
+    @if (travelForm.get('type')?.dirty || travelForm.get('type')?.touched){
+        @if(travelForm.get('type')?.hasError('required')) {
+            <div class="alert alert-danger">Ce champ est obligatoire !</div>
+        }
+        @if(travelForm.get('type')?.hasError('pattern')) {
+            <div class="alert alert-danger">Ce champ n'est pas correct !</div>
+        }
+    }
 
     @if(travelForm.get('type')?.value && travelForm.get('type')?.value === "car"){
         <label for="carConsumption">Consommation pour 100km</label>
