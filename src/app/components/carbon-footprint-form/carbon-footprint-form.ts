@@ -20,9 +20,13 @@ export class CarbonFootprintForm {
       carConsumption: new FormControl(null, [Validators.min(0)])
     }, { validators: this.requiredConsumptionValidator }
   );
+
+  this.travelForm.get('type')?.valueChanges.subscribe(() => {
+    this.travelForm.controls['carConsumption'].clearValidators();
+    this.travelForm.controls['carConsumption'].updateValueAndValidity();
+  });
   }
 
-  /** An actor's name can't match the actor's role */
   requiredConsumptionValidator: ValidatorFn = (
     control: AbstractControl,
   ): ValidationErrors | null => {
