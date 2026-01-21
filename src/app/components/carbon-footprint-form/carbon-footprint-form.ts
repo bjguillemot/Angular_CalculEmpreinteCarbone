@@ -14,17 +14,17 @@ export class CarbonFootprintForm {
 
   constructor(private readonly cfc: CarbonFootprintCompute){
     this.travelForm = new FormGroup({
-      distance: new FormControl(null, [Validators.required, Validators.min(0)]),
-      date: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required, Validators.pattern(/(car|plane|train)/)]),
-      carConsumption: new FormControl(null, [Validators.min(0)])
-    }, { validators: this.requiredConsumptionValidator }
-  );
+        distance: new FormControl(null, [Validators.required, Validators.min(0)]),
+        date: new FormControl(null, [Validators.required]),
+        type: new FormControl(null, [Validators.required, Validators.pattern(/(car|plane|train)/)]),
+        carConsumption: new FormControl(null, [Validators.min(0)])
+      }, { validators: this.requiredConsumptionValidator }
+    );
 
-  this.travelForm.get('type')?.valueChanges.subscribe(() => {
-    this.travelForm.controls['carConsumption'].clearValidators();
-    this.travelForm.controls['carConsumption'].updateValueAndValidity();
-  });
+    this.travelForm.get('type')?.valueChanges.subscribe(() => {
+      this.travelForm.controls['carConsumption'].clearValidators();
+      this.travelForm.controls['carConsumption'].updateValueAndValidity();
+    });
   }
 
   requiredConsumptionValidator: ValidatorFn = (
