@@ -1,50 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Travel, TravelType } from '../models/travel';
+import { CarbonFootprintAPI } from './carbon-footprint-api';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarbonFootprintCompute {
-  private travels: Array<Travel>;
+  private travels$: Observable<Array<Travel>>;
 
-  constructor(){
-    this.travels = [
-      { distanceKm: 50,  consumptionPer100Km: 5, type: "plane", quantityCO2: -1 },
-      { distanceKm: 150, consumptionPer100Km: 6, type: "plane", quantityCO2: -1 },
-      { distanceKm: 250, consumptionPer100Km: 7, type: "plane", quantityCO2: -1 },
-      { distanceKm: 350, consumptionPer100Km: 8, type: "plane", quantityCO2: -1 },
-      { distanceKm: 450, consumptionPer100Km: 9, type: "plane", quantityCO2: -1 }
-    ];
-
-    this.travels.forEach((travel) => {
-      travel.quantityCO2 = this.getQuantityCO2ByTravel(travel);
-    })
+  constructor(private readonly api: CarbonFootprintAPI){
+    this.travels$ = this.getTravels();
   }
 
-  private getQuantityCO2ByTravel(travel: { distanceKm: number, consumptionPer100Km: number, type: TravelType }): number {
-    switch (travel.type) {
-      case "plane":
-        return travel.distanceKm * 0.2
-        break;
-      case "train":
-        return travel.distanceKm * 0.03;
-        break;
-      case "car":
-        return (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3
-        break;
-      default:
-        return (travel.distanceKm * travel.consumptionPer100Km) / 100 * 2.3;
-        break;
-    }
+  private async getQuantityCO2ByTravel(travel: { distance: number, consommation: number, travelType: TravelType }): Promise<number> {
+    return await firstValueFrom(this.api.calculateC02(travel));
   }
 
-  getTravels(): Array<Travel> {
-    return this.travels;
+  getTravels(): Observable<Array<Travel>> {
+    return this.api.getTravels();
   }
 
-  addTravel(travel: { distanceKm: number, consumptionPer100Km: number, type: TravelType }) {
-    const _travel: Travel = { ...travel, quantityCO2: this.getQuantityCO2ByTravel(travel) }
-    this.travels.push(_travel);
+  async addTravel(travel: { distance: number, consommation: number, travelType: TravelType }) {
+    const _travel: Travel = { ...travel, co2: await this.getQuantityCO2ByTravel(travel) } as Travel; //TMP
+    // this.travels.push(_travel);
   }
 
   getResumeTravels(): { totaleDistance: number, averageConsumption: number, quantityCO2Totale: number } {
@@ -56,20 +35,23 @@ export class CarbonFootprintCompute {
   }
 
   private calculateConsumptionPer100Km(): number {
-    return this.travels.reduce((acc, val) => {
-      return acc + val.consumptionPer100Km;
-    }, 0) / this.travels.length;
+    return 0;
+    // return this.travels.reduce((acc, val) => {
+    //   return acc + val.consommation;
+    // }, 0) / this.travels.length;
   }
 
   private calculateDistanceKm(): number {
-    return this.travels.reduce((acc, val) => {
-      return acc + val.distanceKm;
-    }, 0);
+    return 0;
+    // return this.travels.reduce((acc, val) => {
+    //   return acc + val.distance;
+    // }, 0);
   }
 
   private calculatequantityCO2Totale(): number {
-    return this.travels.reduce((acc, val) => {
-      return acc + val.quantityCO2;
-    }, 0);
+    return 0;
+    // return this.travels.reduce((acc, val) => {
+    //   return acc + val.co2;
+    // }, 0);
   }
 }

@@ -38,14 +38,14 @@ export class CarbonFootprintForm {
 
   onClickSubmit() {
     if(this.travelForm.valid){
-      const distanceKm = this.travelForm.get('distance')?.value;
-      const type = this.travelForm.get('type')?.value;
-      let consumptionPer100Km = 0;
-      if(type === 'car'){
-        consumptionPer100Km = this.travelForm.get('carConsumption')?.value ?? 0;
+      const distance = this.travelForm.get('distance')?.value;
+      const travelType = this.travelForm.get('type')?.value;
+      let consommation = 0;
+      if (travelType === 'car'){
+        consommation = this.travelForm.get('carConsumption')?.value ?? 0;
       }
       const date = this.travelForm.get('date');
-      this.cfc.addTravel({ distanceKm, consumptionPer100Km, type })
+      this.cfc.addTravel({ distance, consommation, travelType })
     }
   }
 
