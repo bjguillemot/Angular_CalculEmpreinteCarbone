@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
             <tbody>
-                @for (travel of travels; track $index) {
+                @for (travel of travels(); track $index) {
                     <tr>
                         <td>{{ travel.distance | number:'1.2-2': 'fr_FR' }} km</td>
                         <td>{{ travel.travelType === 'car' ? (travel.consommation | number:'1.2-2': 'fr_FR') + ' L' : '//'}}</td>

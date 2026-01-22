@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Travel, TravelType } from '../models/travel';
 import { CarbonFootprintAPI } from './carbon-footprint-api';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -7,23 +7,30 @@ import { firstValueFrom, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CarbonFootprintCompute {
-  private travels$: Observable<Array<Travel>>;
+  private _travels = signal<Travel[]>([]);
+  readonly travels = this._travels.asReadonly();
 
   constructor(private readonly api: CarbonFootprintAPI){
-    this.travels$ = this.getTravels();
+    this.getTravels().subscribe(travels => this._travels.set(travels));
   }
 
   private async getQuantityCO2ByTravel(travel: { distance: number, consommation: number, travelType: TravelType }): Promise<number> {
-    return await firstValueFrom(this.api.calculateC02(travel));
+    return (await firstValueFrom(this.api.calculateC02(travel))).empreinteCarbone;
   }
 
-  getTravels(): Observable<Array<Travel>> {
+  private getTravels(): Observable<Array<Travel>> {
     return this.api.getTravels();
   }
 
   async addTravel(travel: { distance: number, consommation: number, travelType: TravelType }) {
-    const _travel: Travel = { ...travel, co2: await this.getQuantityCO2ByTravel(travel) } as Travel; //TMP
-    // this.travels.push(_travel);
+    console.log(await this.getQuantityCO2ByTravel(travel));
+    
+    this.api.addTravel({ ...travel, co2: await this.getQuantityCO2ByTravel(travel), userId: 1 }).subscribe(
+      () => {
+        this.getTravels().subscribe(travels => this._travels.set(travels));
+        console.log(this.travels());
+      }
+    );
   }
 
   getResumeTravels(): { totaleDistance: number, averageConsumption: number, quantityCO2Totale: number } {

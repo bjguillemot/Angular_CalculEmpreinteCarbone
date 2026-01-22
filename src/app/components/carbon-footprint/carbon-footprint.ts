@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { CarbonFootprintForm } from "../carbon-footprint-form/carbon-footprint-form";
 import { CarbonFootprintResult } from "../carbon-footprint-result/carbon-footprint-result";
 import { DecimalPipe, registerLocaleData, UpperCasePipe } from '@angular/common';
@@ -24,12 +24,10 @@ export class CarbonFootprint {
   protected distanceKm: number;
   protected consumptionPer100Km: number;
   protected quantityCO2Totale: number;
-  protected travels: Array<Travel>;
+  protected travels: Signal<Array<Travel>>;
 
   constructor(private readonly cfc: CarbonFootprintCompute){
-    this.travels = [];
-    cfc.getTravels().subscribe((travels) => {this.travels = travels; console.log(travels);
-    });
+    this.travels = cfc.travels;
     this.distanceKm = 0;
     this.consumptionPer100Km = 0;
     this.quantityCO2Totale = 0;

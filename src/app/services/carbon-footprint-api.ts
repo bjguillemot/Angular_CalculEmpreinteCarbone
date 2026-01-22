@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Travel, TravelType } from '../models/travel';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +36,13 @@ export class CarbonFootprintAPI {
     );
   }
 
+  addTravel(travel: { userId: number, distance: number, consommation: number, co2: number, travelType: TravelType }) {
+    const body = travel;
+    return this.http.post(`${this.BASE_URL}/ajouterUnVoyage`, body);
+  }
 
-  calculateC02(travel: { distance: number, consommation: number, travelType: TravelType }): Observable<number> {
+
+  calculateC02(travel: { distance: number, consommation: number, travelType: TravelType }): Observable<{ empreinteCarbone: number }> {
     switch (travel.travelType) {
       case "plane":
         return this.calculateC02Plane(travel.distance);
@@ -50,15 +55,15 @@ export class CarbonFootprintAPI {
     }
   }
 
-  private calculateC02Car(distance: number, consommation: number): Observable<number> {
-    return this.http.get<number>(`${this.BASE_URL}/calculerTrajetVoiture?distanceKm=${distance}&consommationPour100Km=${consommation}`);
+  private calculateC02Car(distance: number, consommation: number): Observable<{ empreinteCarbone: number }> {
+    return this.http.get<{ empreinteCarbone: number }>(`${this.BASE_URL}/calculerTrajetVoiture?distanceKm=${distance}&consommationPour100Km=${consommation}`);
   }
 
-  private calculateC02Plane(distance: number): Observable<number> {
-    return this.http.get<number>(`${this.BASE_URL}/calculerTrajetAvion?distanceKm=${distance}`);
+  private calculateC02Plane(distance: number): Observable<{ empreinteCarbone: number }> {
+    return this.http.get<{ empreinteCarbone: number }>(`${this.BASE_URL}/calculerTrajetAvion?distanceKm=${distance}`);
   }
 
-  private calculateC02Train(distance: number): Observable<number> {
-    return this.http.get<number>(`${this.BASE_URL}/calculerTrajetTrain?distanceKm=${distance}`);
+  private calculateC02Train(distance: number): Observable<{ empreinteCarbone: number }> {
+    return this.http.get<{ empreinteCarbone: number }>(`${this.BASE_URL}/calculerTrajetTrain?distanceKm=${distance}`);
   }
 }
