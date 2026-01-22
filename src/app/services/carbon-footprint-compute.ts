@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Travel, TravelType } from '../models/travel';
 import { CarbonFootprintAPI } from './carbon-footprint-api';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -22,14 +22,9 @@ export class CarbonFootprintCompute {
     return this.api.getTravels();
   }
 
-  async addTravel(travel: { distance: number, consommation: number, travelType: TravelType }) {
-    console.log(await this.getQuantityCO2ByTravel(travel));
-    
+  async addTravel(travel: { distance: number, consommation: number, travelType: TravelType }) {    
     this.api.addTravel({ ...travel, co2: await this.getQuantityCO2ByTravel(travel), userId: 1 }).subscribe(
-      () => {
-        this.getTravels().subscribe(travels => this._travels.set(travels));
-        console.log(this.travels());
-      }
+      () => this.getTravels().subscribe(travels => this._travels.set(travels))
     );
   }
 
@@ -42,23 +37,20 @@ export class CarbonFootprintCompute {
   }
 
   private calculateConsumptionPer100Km(): number {
-    return 0;
-    // return this.travels.reduce((acc, val) => {
-    //   return acc + val.consommation;
-    // }, 0) / this.travels.length;
+    return this.travels().reduce((acc, val) => {
+      return acc + val.consommation;
+    }, 0) / this.travels().length;
   }
 
   private calculateDistanceKm(): number {
-    return 0;
-    // return this.travels.reduce((acc, val) => {
-    //   return acc + val.distance;
-    // }, 0);
+    return this.travels().reduce((acc, val) => {
+      return acc + val.distance;
+    }, 0);
   }
 
   private calculatequantityCO2Totale(): number {
-    return 0;
-    // return this.travels.reduce((acc, val) => {
-    //   return acc + val.co2;
-    // }, 0);
+    return this.travels().reduce((acc, val) => {
+      return acc + val.co2;
+    }, 0);
   }
 }
